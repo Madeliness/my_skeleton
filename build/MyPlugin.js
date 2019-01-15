@@ -3,7 +3,7 @@ let MyPlugin = function (options) {
 }
 MyPlugin.prototype.apply = function (compiler) {
   // 插件运行即调用
-  // console.log('我们的插件被执行了')
+  console.log('我们的插件被执行了')
   // console.log(this.test)
   // console.log(compiler)
   // compiler.options获取webpack配置文件的属性
@@ -15,10 +15,26 @@ MyPlugin.prototype.apply = function (compiler) {
       // html-webpack-plugin中间插入行为的地方
       // htmlData.html = htmlData.html.replace(`<div id="app"></div>`)
       htmlData.html = htmlData.html.replace(`<div id="app"></div>`, `<div id="app">
-            <div style="background-color: hotpink;height: 500px;">
-                骨架屏
+            <div style="background-color: hotpink;height: 500px;display:none" id="user">
+                user骨架屏A
+            </div>
+            <div style="background-color: yellowgreen;height: 500px;display:none" id="goods">
+                goods骨架屏B
             </div> 
-    </div>`)
+        </div>
+        <script>
+          
+            // hash模式||history模式
+            var hashPath = location.hash; // '#/user||#/goods'
+            var hPath = location.pathname // '/user || /goods'
+            if (hashPath === '#/user' || hPath === '/user') {
+              document.getElementById('user').style.display = 'block'
+            } else {
+              document.getElementById('goods').style.display = 'block'
+            }
+          
+        </script>
+      `)
       // 更改了其中的html，未来生成的html就是以上内容
       callback(null, htmlData)
     })
